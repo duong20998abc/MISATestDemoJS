@@ -1,0 +1,38 @@
+﻿html, body {
+    font-family: TahomaCustom !important;
+    font-size: 13px;
+}
+
+.title{
+    height:40px;
+    width:100%;
+    border:1px solid #808080;
+}
+
+@font-face {
+    font-family: TahomaCustom;
+    src: url('/Contents/Fonts/Tahoma_Regular.woff');
+    src: url('/Contents/Fonts/Tahoma_Regular.woff?#iefix') format('embedded-opentype'),url('/Contents/Fonts/Tahoma_Regular.woff') format('woff'),url('/Contents/Fonts/Tahoma_Regular.woff') format('truetype'),url('/Contents/Fonts/Tahoma_Regular.svg#TahomaCustom') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'TahomaCustom';
+    src: url('/Contents/Fonts/Tahoma_Bold.eot');
+    src: url('/Contents/Fonts/Tahoma_Bold.eot?#iefix') format('embedded-opentype'),url('/Contents/Fonts/Tahoma_Bold.woff') format('woff'),url('/Contents/Fonts/Tahoma_Bold.ttf') format('truetype'),url('/Contents/Fonts/Tahoma_Bold.svg#TahomaCustom') format('svg');
+    font-weight: bold;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'TahomaCustom';
+    src: url('/Contents/Fonts/Tahoma_Italic.eot');
+    src: url('/Contents/Fonts/Tahoma_Italic.eot?#iefix') format('embedded-opentype'),url('/Contents/Fonts/Tahoma_Italic.woff') format('woff'),url('/Contents/Fonts/Tahoma_Italic.ttf') format('truetype'),url('/Contents/Fonts/Tahoma_Italic.svg#TahomaCustom') format('svg');
+    font-weight: normal;
+    font-style: italic;
+}
+
+input{
+    width:100%;
+}

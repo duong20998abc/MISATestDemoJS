@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestDemoJs", "TestDemoJs\TestDemoJs.csproj", "{478E29E9-4949-4849-8379-0987110B3E07}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DemoJqueryOOP", "DemoJqueryOOP\DemoJqueryOOP.csproj", "{8EEDA1CB-96BC-49AE-88FC-391C4EFE6DDD}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{478E29E9-4949-4849-8379-0987110B3E07}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{478E29E9-4949-4849-8379-0987110B3E07}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{478E29E9-4949-4849-8379-0987110B3E07}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{478E29E9-4949-4849-8379-0987110B3E07}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8EEDA1CB-96BC-49AE-88FC-391C4EFE6DDD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8EEDA1CB-96BC-49AE-88FC-391C4EFE6DDD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8EEDA1CB-96BC-49AE-88FC-391C4EFE6DDD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8EEDA1CB-96BC-49AE-88FC-391C4EFE6DDD}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,251 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Trang chủ</title>
+    <link href="/CSS/bootstrap.min.css" rel="stylesheet" />
+    <link href="/CSS/common/common.css" rel="stylesheet" />
+    <link href="/CSS/common/toolbar.css" rel="stylesheet" />
+    <link href="/CSS/common/grid.css" rel="stylesheet" />
+    <link href="/CSS/Views/index.css" rel="stylesheet" />
+    <link href="/CSS/lib/jquery-ui.min.css" rel="stylesheet" />
+
+</head>
+<body>
+    <!--header-->
+    <!--Created By NBDUONG (18/4/2019)-->
+    <div class="header">
+
+    </div>
+
+    <!--sidebar-->
+    <!--Created By NBDUONG (18/4/2019)-->
+    <div class="sidebar">
+
+    </div>
+
+    <!--main-content-->
+    <!--Created By NBDUONG (18/4/2019)-->
+    <div class="content">
+        <div class="title">
+            Danh mục> Khách hàng
+        </div>
+
+        <!--toolbar with option button-->
+        <!--Created By NBDUONG (18/4/2019)-->
+        <div class="toolbar">
+            <div id="btnAdd" class="toolbar-item">
+                <div class="toolbar-item-icons toolbar-item-icons-add"></div>
+                <div class="toolbar-item-text">Thêm</div>
+            </div>
+            <div id="btnDuplicate" class="toolbar-item">
+                <div class="toolbar-item-icons toolbar-item-icons-duplicate"></div>
+                <div class="toolbar-item-text">Nhân bản</div>
+            </div>
+            <div id="btnView" class="toolbar-item">
+                <div class="toolbar-item-icons toolbar-item-icons-view"></div>
+                <div class="toolbar-item-text">Xem</div>
+            </div>
+            <div id="btnEdit" class="toolbar-item">
+                <div class="toolbar-item-icons toolbar-item-icons-edit"></div>
+                <div class="toolbar-item-text">Sửa</div>
+            </div>
+            <div class="toolbar-item" id="btnRefresh">
+                <div class="toolbar-item-icons toolbar-item-icons-refresh"></div>
+                <div class="toolbar-item-text">Nạp</div>
+            </div>
+            <div class="toolbar-item" id="btnDelete">
+                <div class="toolbar-item-icons toolbar-item-icons-delete"></div>
+                <div class="toolbar-item-text">Xóa</div>
+            </div>
+        </div>
+
+        <!--table load data-->
+        <!--Created By NBDUONG (18/4/2019)-->
+        <div class="grid">
+            <table id="tblCustomer" border="1" width="100%" recordId="CustomerID">
+                <thead>
+                    <tr>
+                        <th>
+                            <div fieldData="CustomerCode">
+                                <div class="column-title">Mã khách hàng</div>
+                                <div class="column-filter">
+                                    <div class="filter-option"></div>
+                                    <input class="filter-input" />
+                                </div>
+                            </div>
+                        </th>
+                        <th>
+                            <div fieldData="CustomerName">
+                                <div class="column-title">Tên khách hàng</div>
+                                <div class="column-filter">
+                                    <div class="filter-option"></div>
+                                    <input class="filter-input" />
+                                </div>
+                            </div>
+                        </th>
+                        <th>
+                            <div fieldData="GenderName">
+                                <div class="column-title">Giới tính</div>
+                                <div class="column-filter">
+                                    <div class="filter-option"></div>
+                                    <input class="filter-input" />
+                                </div>
+                            </div>
+                        </th>
+                        <th>
+                            <div fieldData="Birthday" dataType="DaTE">
+                                <div class="column-title">Ngày sinh</div>
+                                <div class="column-filter">
+                                    <div class="filter-option"></div>
+                                    <input class="filter-input" />
+                                </div>
+                            </div>
+                        </th>
+                        <th>
+                            <div fieldData="Salary" dataType="money">
+                                <div class="column-title">Lương</div>
+                                <div class="column-filter">
+                                    <div class="filter-option"></div>
+                                    <input class="filter-input" />
+                                </div>
+                            </div>
+                        </th>
+                        <th>
+                            <div fieldData="Address">
+                                <div class="column-title">Địa chỉ</div>
+                                <div class="column-filter">
+                                    <div class="filter-option"></div>
+                                    <input class="filter-input" />
+                                </div>
+                            </div>
+                        </th>
+                        <th>
+                            <div fieldData="StopFollow" dataType="boolean">
+                                <div class="column-title">Ngừng theo dõi</div>
+                                <div class="column-filter">
+                                    <div class="filter-option"></div>
+                                    <input class="filter-input" />
+                                </div>
+                            </div>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </div>
+
+    <!--Form Detail-->
+    <!--Created By NBDUONG (18/4/2019)-->
+    <div id="formDetail" style="display: none">
+        <div class="row">
+            <div class="col-md-6 formDetail-left-cl">
+                <div class="row">
+                    <div class="formDetail-left-cl_label left-float col-md-5">
+                        <label>Mã khách hàng</label>
+                        <span style="color: red;">(*)</span>
+                    </div>
+                    <div class="formDetail-left-cl_input left-float col-md-7">
+                        <input type="text" value="" name="code" id="input-code"/>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6 formDetail-right-cl">
+                <div class="row">
+                    <div class="formDetail-left-cl_label left-float col-md-5">
+                        <label>Địa chỉ</label>
+                    </div>
+                    <div class="formDetail-left-cl_input left-float col-md-7">
+                        <input type="text" value="" name="input-address"  id="input-address"/>
+                    </div>
+                </div>    
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col-md-6 formDetail-left-cl">
+                <div class="row">
+                    <div class="formDetail-left-cl_label left-float col-md-5" >
+                        <label>Tên khách hàng</label>
+                        <span style="color: red;">(*)</span>
+                    </div>
+                    <div class="formDetail-left-cl_input left-float col-md-7">
+                        <input type="text" value="" name="name" id="input-name"/>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6 formDetail-right-cl">
+                <div class="row">
+                    <div class="formDetail-left-cl_label left-float col-md-5">
+                        <label>Lương tháng</label>
+                    </div>
+                    <div class="formDetail-left-cl_input left-float col-md-7">
+                        <input type="number" value="" name="input-salary" id="input-salary"/>
+                    </div>
+                </div>
+               
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 formDetail-left-cl">
+                <div class="row">
+                    <div class="formDetail-left-cl_label left-float col-md-5">
+                        <label>Ngày sinh</label>
+                    </div>
+                    <div class="formDetail-left-cl_input left-float col-md-7" >
+                        <input type="text" value="" id="birthday-selection" name="input-birthday" />
+                    </div>
+                </div>  
+            </div>
+
+            <div class="col-md-6 formDetail-right-cl">
+                <div class="row">
+                    <div class="formDetail-left-cl_label left-float col-md-5">
+                        <label>Ngừng theo dõi</label>
+                    </div>
+                    <div class="formDetail-left-cl_input left-float col-md-7" >
+                        <select id="follow-ComboBox">
+                            <option value="0" selected>Ngừng theo dõi</option>
+                            <option value="1">Theo dõi</option>
+                        </select>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 formDetail-left-cl">
+                <div class="row">
+                    <div class="formDetail-left-cl_label left-float col-md-5">
+                        <label>Giới tính</label>
+                    </div>
+                    <div class="formDetail-left-cl_input left-float col-md-7">
+                        <select id="gender-ComboBox">
+                            <option value="1" selected>Nam</option>
+                            <option value="0">Nữ</option>
+                            <option value="2">Gay</option>
+                            <option value="3">Les</option>
+                        </select>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+
+    <script src="/Scripts/lib/jquery-3.3.1.min.js"></script>
+    <script src="/Scripts/lib/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.13.1/jquery.validate.min.js"></script>
+    <script src="/Scripts/lib/bootstrap.min.js"></script>
+    <script src="/Scripts/lib/popper.min.js"></script>
+    <script src="/Scripts/common/common.js"></script>
+    <script src="/Scripts/base/dialog.js"></script>
+    <script src="/Scripts/base/validate.js"></script>
+    <script src="/Scripts/Views/index.js"></script>
+</body>
+</html>

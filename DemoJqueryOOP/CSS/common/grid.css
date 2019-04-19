@@ -1,0 +1,61 @@
+﻿
+table tbody tr:hover {
+    background-color: #bdc5e9 !important;
+}
+
+table tbody tr.row-even {
+    background-color: #cfcece;
+}
+
+table thead .column-title {
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+}
+
+table thead th {
+    align-items: center;
+    justify-content: center;
+}
+
+table .column-filter {
+    display: flex;
+    width: 100%;
+    padding: 2px;
+    border: 1px solid #ccc;
+}
+
+
+table thead .column-filter .filter-option {
+    width: 27px;
+    height: 27px;
+    border: 1px solid #ccc;
+    text-align: center;
+}
+    table thead .column-filter .filter-option:before {
+        content: '∗';
+        line-height: 27px;
+        text-align: center;
+    }
+    table thead .filter-input {
+        width: 100%;
+    }
+
+
+.text-align-left {
+    text-align: left;
+}
+.text-align-center {
+    text-align: center;
+}
+.text-align-right {
+    text-align: right;
+}
+
+table tbody .row-selected{
+    background-color:aqua !important;
+}
+
+.grid{
+    overflow-y:auto;
+}
