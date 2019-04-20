@@ -63,7 +63,7 @@
     margin-top: 5px;
 }
 
-#follow-ComboBox-button, #gender-ComboBox-button {
+span#GenderName-button, span#StopFollow-button {
     width: 173px;
 }
 

@@ -19,8 +19,46 @@ class Base {
     //Constructor
     // Created by NBDUONG (18/4/2019)
     constructor() {
-         
+
     }
+
+    //Function get data from server through ajax call
+    // Created by NBDUONG (19/4/2019)
+    getDataFromServer() {
+        var data = [];
+        var elements = {};
+        $.ajax({
+            type: "GET",
+            url: "/customers",
+            contentType: "application/json;charset=utf-8",
+            dataType: "json",
+            async: false,
+            success: function (response) {
+                for (var i = 0; i < response.length; i++) {
+                    //each element is displayed as an array when parse data from json
+                    //each element contains fields like in Customer Entity
+                    elements = {
+                        CustomerCode: response[i].CustomerCode,
+                        CustomerName: response[i].CustomerName,
+                        GenderName: response[i].GenderName,
+                        Birthday: new Date(response[i].Birthday).toLocaleDateString(),
+                        Salary: response[i].Salary,
+                        Address: response[i].Address,
+                        StopFollow: response[i].StopFollow
+                    };
+
+                    //push elements into data array
+                    data.push(elements);
+                }
+
+                //assign data taken from server into object dataInServer to get data from server everywhere in this js file
+                dataInServer = data;
+            }, error: function () {
+                alert("FAIL");
+            }
+        });
+    }
+
 
     //loadData using Ajax Call from server
     //Get from API call
@@ -49,43 +87,6 @@ class Base {
             $('tbody').append(rowHtml);
         });
     };
-
-    //Function get data from server through ajax call
-    // Created by NBDUONG (19/4/2019)
-    getDataFromServer() {
-        var data = [];
-        var elements = {};
-        $.ajax({
-            type: "GET",
-            url: "/customers",
-            contentType: "application/json;charset=utf-8",
-            dataType: "json",
-            success: function (response) {
-                for (var i = 0; i < response.length; i++) {
-                    //each element is displayed as an array when parse data from json
-                    //each element contains fields like in Customer Entity
-                    elements = {
-                        CustomerCode: response[i].CustomerCode,
-                        CustomerName: response[i].CustomerName,
-                        GenderName: response[i].GenderName,
-                        Birthday: new Date(response[i].Birthday).toLocaleDateString(),
-                        Salary: response[i].Salary,
-                        Address: response[i].Address,
-                        StopFollow: response[i].StopFollow
-                    };
-
-                    //push elements into data array
-                    data.push(elements);
-                }
-
-                //assign data taken from server into object dataInServer to get data from server everywhere in this js file
-                dataInServer = data;
-                customerJSNew.loadData();
-            }, error: function () {
-                alert("FAIL");
-            }
-        });
-    }
 }
 
 var check ;
@@ -121,7 +122,10 @@ class CustomerJS extends Base {
     add() {
         //3 buttons in the bottom of the dialog
         var buttons = {
-            "Lưu": check.save,
+            "Lưu": function () {
+                check.save();
+                popup.closeDialog();
+            },
             "Đóng": function () { popup.closeDialog(); },
             "Giúp": function () { }
         };
@@ -130,9 +134,9 @@ class CustomerJS extends Base {
         var popup = new Dialog('#formDetail', 700, 270, buttons, "Thêm mới nhân viên");
         popup.openDialog();
 
-        popup.addDatePicker("#birthday-selection");
-        popup.getSelectMenu("#follow-ComboBox");
-        popup.getSelectMenu("#gender-ComboBox");
+        popup.addDatePicker("#Birthday");
+        popup.getSelectMenu("#StopFollow");
+        popup.getSelectMenu("#GenderName");
     }
 
     //Edit function
@@ -142,7 +146,7 @@ class CustomerJS extends Base {
             "Lưu": function () { validate.validateInput(); },
             "Đóng": function () { popup.closeDialog(); },
             "Giúp": function () { }
-        }
+        };
         var popup = new Dialog('#formDetail', 700, 270, buttons, "Chỉnh sửa thông tin nhân viên");
         popup.openDialog();
 
@@ -157,7 +161,7 @@ class CustomerJS extends Base {
         var buttons = {
             "Đóng": function () { popup.closeDialog(); },
             "Giúp": function () { }
-        }
+        };
         var popup = new Dialog('#formDetail', 700, 270, buttons, "Xem thông tin nhân viên");
         popup.openDialog();
 
@@ -221,35 +225,37 @@ class CustomerJS extends Base {
 
         //Created By NBDUONG (18/4/2019)
         //Get data from form, build into object
-        var object = {
-            CustomerName: $('#input-name').val(),
-            CustomerCode: $('#input-code').val(),
-            Address: $('#input-address').val(),
-            Birthday: $('#birthday-selection').val(),
-            Salary: $('#input-salary').val(),
-            Gender: $('#gender-ComboBox').val(),
-            StopFollow: $('#follow-ComboBox').val()
-        };
+
+        var elements = $('#formDetail input, #formDetail select');
+        var object = {};
+        $.each(elements, function (index, element) {
+            var id = $(element).attr('id');
+            if (id === "StopFollow") {
+                //customer[id] = $(`#${idname}`).prop('checked');  //new world
+                object[id] = parseInt($(element).val());
+            } else {
+                object[id] = $(element).val();
+            }
+        });
+
+        console.log(object);
 
         //ajax call api to create new customer
         //Created By: NBDUONG (19/4/2019)
-        if (object.CustomerName !== "" && object.CustomerCode !== "") {
-            $.ajax({
-                type: "POST",
-                url: "/customers/new",
-                data: JSON.stringify(object),
-                contentType: "application/json;charset=utf-8",
-                dataType: "json",
-                success: function () {
-                    this.loadData();
-                    popup.closeDialog();
-                },
-                error: function () {
-                    console.log("gege");
-                }
-            });
-        } else {
-            alert("thieu du lieu ko cho insert");
-        }    
+        $.ajax({
+            type: "POST",
+            url: "/customers/new",
+            data: JSON.stringify(object),
+            contentType: "application/json;charset=utf-8",
+            dataType: "json",
+            success: function (object) {
+                location.reload();
+            },
+            error: function () {
+                console.log("gege");
+            }
+        });
     }
 }
+
+
