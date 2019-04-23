@@ -66,6 +66,8 @@ namespace MISA.DemoCukCuk03
             return customerNew;
         }
 
+        //Asynchronous function to get customers from database
+        //Created By: NBDUONG (23/4/2019)
         [HttpGet]
         [Route("customers")]
         public async Task<AjaxResult> GetCustomers()
@@ -73,6 +75,7 @@ namespace MISA.DemoCukCuk03
             var result = new AjaxResult();
             try
             {
+                //delay in 2s -> needs await :)
                 await Task.Delay(2000);
                 result.Data = db.Customers ;
                 result.Success = true;

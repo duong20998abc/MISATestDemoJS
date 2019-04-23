@@ -25,6 +25,7 @@ class Base {
     //Function get data from server through ajax call
     // Created by NBDUONG (19/4/2019)
     getDataFromServer() {
+        $('.loading').show();
         var data = [];
         var elements = {};
         $.ajax({
@@ -66,6 +67,7 @@ class Base {
     //Created by NBDUONG (18/4/2019)
     //Modified by NBDUONG (19/4/2019): Ajax Call to get data from server is shown in function getDataFromServer(), function loadData() works only to show data, no ajax 
     loadData() {
+        $('.loading').hide();
         $.each(dataInServer, function (index, item) {
             var rowHtml = $('<tr></tr>');
             if (index % 2 === 1) {
@@ -76,6 +78,10 @@ class Base {
 
             $.each(listElements, function (i, element) {
                 var fieldData = $(element).attr("fieldData");
+                var fieldValue = element[fieldData];
+                var dataType = typeof (fieldValue);
+
+
                 if (fieldData === "StopFollow" && item[fieldData]) {
                     rowHtml.append('<td><input type="checkbox" checked /></td>');
                 } else if (fieldData === "StopFollow" && !item[fieldData]) {
@@ -235,6 +241,9 @@ class CustomerJS extends Base {
 
         var elements = $('#formDetail input, #formDetail select');
         var object = {};
+
+        //Format Date String to Synch Date Data in DB vs Date Data get from Server
+        //Modified By NBDUONG (23/4/2019)
         $.each(elements, function (index, element) {
             var id = $(element).attr('id');
             if (id === "StopFollow") {

@@ -224,6 +224,9 @@
   <ItemGroup>
     <Content Include="Contents\Icons\Edit16.png" />
     <Content Include="Contents\Icons\IconSprite.png" />
+    <Content Include="Contents\Images\lg.-text-entering-comment-loader.gif" />
+    <Content Include="Contents\Images\loading.gif" />
+    <Content Include="Contents\Images\tenor.gif" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="CSS\bootstrap.min.css" />
@@ -268,7 +271,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Contents\Images\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

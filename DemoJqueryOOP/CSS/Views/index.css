@@ -29,7 +29,7 @@
     top: 55px;
 }
 
-.grid {
+.grid { 
     position: absolute;
     left: 8px;
     right: 8px;
@@ -69,6 +69,19 @@ span#Gender-button, span#StopFollow-button {
 
 .border-red {
     border: 1px solid red;
+}
+
+.loading {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-image: url('../../Contents/Images/loading.gif');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-color: #ccc;
+    opacity: 0.4;   
 }
 
 
