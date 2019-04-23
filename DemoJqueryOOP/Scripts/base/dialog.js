@@ -69,6 +69,7 @@ class Dialog {
         $(element).datepicker({
             changeMonth: true,
             changeYear: true,
+            defaultDate: new Date(),
             yearRange: "1900:2099",
             dateFormat: "dd/mm/yy"
         });

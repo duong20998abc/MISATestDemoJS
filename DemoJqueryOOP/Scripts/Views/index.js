@@ -34,17 +34,18 @@ class Base {
             dataType: "json",
             async: false,
             success: function (response) {
-                for (var i = 0; i < response.length; i++) {
+                for (var i = 0; i < response.Data.length; i++) {
                     //each element is displayed as an array when parse data from json
                     //each element contains fields like in Customer Entity
+                    
                     elements = {
-                        CustomerCode: response[i].CustomerCode,
-                        CustomerName: response[i].CustomerName,
-                        GenderName: response[i].GenderName,
-                        Birthday: new Date(response[i].Birthday).toLocaleDateString(),
-                        Salary: response[i].Salary,
-                        Address: response[i].Address,
-                        StopFollow: response[i].StopFollow
+                        CustomerCode: response.Data[i].CustomerCode,
+                        CustomerName: response.Data[i].CustomerName,
+                        GenderName: response.Data[i].GenderName,
+                        Birthday: new Date(response.Data[i].Birthday).toLocaleDateString(),
+                        Salary: response.Data[i].Salary,
+                        Address: response.Data[i].Address,
+                        StopFollow: response.Data[i].StopFollow
                     };
 
                     //push elements into data array
@@ -86,10 +87,10 @@ class Base {
 
             $('tbody').append(rowHtml);
         });
-    };
+    }
 }
 
-var check ;
+var check;
 
 //CustomerJS class inherited from Base and using method of parents
 // Created by NBDUONG (18/4/2019)
@@ -117,6 +118,12 @@ class CustomerJS extends Base {
         $('#btnDelete').click(this.delete); 
     }
 
+    onRowClick() {
+        $('tbody').on('click', 'tr', function () {
+
+        });
+    }
+
     //Add function
     // Created by NBDUONG (18/4/2019)
     add() {
@@ -136,7 +143,7 @@ class CustomerJS extends Base {
 
         popup.addDatePicker("#Birthday");
         popup.getSelectMenu("#StopFollow");
-        popup.getSelectMenu("#GenderName");
+        popup.getSelectMenu("#Gender");
     }
 
     //Edit function
@@ -233,7 +240,12 @@ class CustomerJS extends Base {
             if (id === "StopFollow") {
                 //customer[id] = $(`#${idname}`).prop('checked');  //new world
                 object[id] = parseInt($(element).val());
-            } else {
+            } else if (id === "Birthday") {
+                var datePicker = $('#Birthday').datepicker('getDate');
+                var dateObject = $.datepicker.formatDate("yy-mm-dd", datePicker);
+                object[id] = dateObject + " 00:00:00";
+            }
+            else {
                 object[id] = $(element).val();
             }
         });
