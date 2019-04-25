@@ -106,6 +106,15 @@ namespace MISA.DemoCukCuk03
         public IHttpActionResult EditCustomer ([FromBody]Customer customer)
         {
             Customer customerNew = db.Customers.FirstOrDefault(x => x.CustomerID == customer.CustomerID);
+            customerNew.Address = customer.Address;
+            customerNew.CustomerCode = customer.CustomerCode;
+            customerNew.Birthday = customer.Birthday;
+            customerNew.CustomerName = customer.CustomerName;
+            customerNew.Gender = customer.Gender;
+            customerNew.Salary = customer.Salary;
+            customerNew.StopFollow = customer.StopFollow;
+
+            db.SaveChanges();
             return Ok();
         }
     }

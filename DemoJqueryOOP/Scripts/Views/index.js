@@ -196,13 +196,13 @@ class CustomerJS extends Base {
                         fieldValue = new Date(fieldValue).formatddMMyyyy();
                         $(item).val(fieldValue);
                         break;
-                    case "StopFollow":
-                        $(item).val(fieldValue);
-                        $("#StopFollow").selectmenu("refresh", false);
-                        break;
                     case "Gender":
                         $(item).val(fieldValue);
                         $('#Gender').selectmenu("refresh");
+                        break;
+                    case "StopFollow":
+                        $(item).val(fieldValue);
+                        $("#StopFollow").selectmenu("refresh", false);
                         break;
                     default:
                         $(item).val(fieldValue);
