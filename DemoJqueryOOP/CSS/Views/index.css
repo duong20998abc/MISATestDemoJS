@@ -84,4 +84,18 @@ span#Gender-button, span#StopFollow-button {
     opacity: 0.4;   
 }
 
+.align-center {
+    text-align: center;
+}
 
+.align-right {
+    text-align: right;
+}
+
+tbody td {
+    padding-left: 10px;
+}
+
+table tbody tr.selected-row {
+    background-color: yellow;
+}

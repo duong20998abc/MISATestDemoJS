@@ -21,6 +21,6 @@ class Validate {
         });
         return flag;
     }
-
-
 }
+
+var validate = new Validate();

@@ -94,7 +94,7 @@
                             </div>
                         </th>
                         <th>
-                            <div fieldData="Birthday" dataType="DaTE">
+                            <div fieldData="Birthday" dataType="date">
                                 <div class="column-title">Ngày sinh</div>
                                 <div class="column-filter">
                                     <div class="filter-option"></div>
@@ -149,7 +149,7 @@
                         <span style="color: red;">(*)</span>
                     </div>
                     <div class="formDetail-left-cl_input left-float col-md-7">
-                        <input type="text" value="" name="code" id="CustomerCode"/>
+                        <input type="text" value="" name="code" id="CustomerCode" dataIndex ="CustomerCode"/>
                     </div>
                 </div>
             </div>
@@ -160,7 +160,7 @@
                         <label>Địa chỉ</label>
                     </div>
                     <div class="formDetail-left-cl_input left-float col-md-7">
-                        <input type="text" value="" name="input-address"  id="Address"/>
+                        <input type="text" value="" name="input-address"  id="Address" dataIndex ="Address"/>
                     </div>
                 </div>    
             </div>
@@ -174,7 +174,7 @@
                         <span style="color: red;">(*)</span>
                     </div>
                     <div class="formDetail-left-cl_input left-float col-md-7">
-                        <input type="text" value="" name="name" id="CustomerName"/>
+                        <input type="text" value="" name="name" id="CustomerName" dataIndex ="CustomerName"/>
                     </div>
                 </div>
             </div>
@@ -185,7 +185,7 @@
                         <label>Lương tháng</label>
                     </div>
                     <div class="formDetail-left-cl_input left-float col-md-7">
-                        <input type="number" value="" name="input-salary" id="Salary"/>
+                        <input type="number" value="" name="input-salary" id="Salary" dataIndex ="Salary"/>
                     </div>
                 </div>
                
@@ -199,7 +199,7 @@
                         <label>Ngày sinh</label>
                     </div>
                     <div class="formDetail-left-cl_input left-float col-md-7" >
-                        <input type="text" value="" id="Birthday" name="input-birthday"/>
+                        <input type="text" value="" id="Birthday" name="input-birthday" dataIndex ="Birthday"/>
                     </div>
                 </div>  
             </div>
@@ -210,7 +210,7 @@
                         <label>Ngừng theo dõi</label>
                     </div>
                     <div class="formDetail-left-cl_input left-float col-md-7" >
-                        <select id="StopFollow">
+                        <select id="StopFollow" dataIndex ="StopFollow">
                             <option value="1" selected>Ngừng theo dõi</option>
                             <option value="0">Theo dõi</option>
                         </select>
@@ -227,11 +227,10 @@
                         <label>Giới tính</label>
                     </div>
                     <div class="formDetail-left-cl_input left-float col-md-7">
-                        <select id="Gender" >
+                        <select id="Gender" dataIndex ="Gender">
                             <option value="1" selected>Nam</option>
                             <option value="0">Nữ</option>
-                            <option value="2">Gay</option>
-                            <option value="3">Les</option>
+                            <option value="2">Không xác định</option>
                         </select>
                     </div>
                 </div>

@@ -35,11 +35,13 @@ class Base {
             dataType: "json",
             async: false,
             success: function (response) {
+                //var data = response.Data;
                 for (var i = 0; i < response.Data.length; i++) {
                     //each element is displayed as an array when parse data from json
                     //each element contains fields like in Customer Entity
-                    
+
                     elements = {
+                        CustomerId: response.Data[i].CustomerID,
                         CustomerCode: response.Data[i].CustomerCode,
                         CustomerName: response.Data[i].CustomerName,
                         GenderName: response.Data[i].GenderName,
@@ -74,20 +76,46 @@ class Base {
                 rowHtml = $('<tr class="row-even"></tr>');
             }
 
+            rowHtml.data(item);
+
             var listElements = $('div[fieldData]');
 
+            //Check format data
+            //Modified by NBDUONG (25/4/2019)
             $.each(listElements, function (i, element) {
                 var fieldData = $(element).attr("fieldData");
-                var fieldValue = element[fieldData];
-                var dataType = typeof (fieldValue);
+                var dataType = $(element).attr('dataType');
+                var value = item[fieldData] ? item[fieldData] : ""; //check null
+                var typeData = jQuery.type(value);
+                switch (dataType) {
+                    case "date":
+                        var dateString = "";    
+                        if (value) {
+                            value = new Date(value);
+                            dateString = value.formatddMMyyyy();
+                        }
+                        rowHtml.append('<td class = "align-center">' + dateString + '</td>');
+                        break;
+                    case "money":
+                        var money = "";
+                        if (value) {
+                            money = value.formatMoney();
+                        }
+                        rowHtml.append('<td class = "align-right">' + money + '</td>');
+                        break;
+                    case "boolean":
+                        var checkbox = "";
+                        if (value) {
+                            checkbox = '<input type ="checkbox" checked />';
+                        } else {
+                            checkbox = '<input type = "checkbox"';
+                        }
 
+                        rowHtml.append('<td class = "align-center">' + checkbox + '</td>');
+                        break;
 
-                if (fieldData === "StopFollow" && item[fieldData]) {
-                    rowHtml.append('<td><input type="checkbox" checked /></td>');
-                } else if (fieldData === "StopFollow" && !item[fieldData]) {
-                    rowHtml.append('<td><input type="checkbox" /></td>');
-                } else {
-                    rowHtml.append('<td>' + item[fieldData] + '</td>');
+                    default: 
+                        rowHtml = $(rowHtml).append('<td>' + value + '</td>');
                 }
             });
 
@@ -106,11 +134,16 @@ class CustomerJS extends Base {
     //Created By NBDUONG (18/4/2019)
     constructor() {
         super();
+        this.initEvents();
         this.getDataFromServer();
         this.loadData();
         this.CustomerName = "Dương";
-        this.initEvents();
+        this.onRowClick();
+        this.dialog = new Dialog('#formDetail', 700, 270, this);
         check = this;
+        check.dialog.addDatePicker("#Birthday");
+        check.dialog.getSelectMenu("#StopFollow");
+        check.dialog.getSelectMenu("#Gender");
     }
 
     //initEvents
@@ -121,161 +154,160 @@ class CustomerJS extends Base {
         $('#btnView').click(this.view);
         $('#btnRefresh').click(this.refresh);
         $('#btnDuplicate').click(this.duplicate);
-        $('#btnDelete').click(this.delete); 
+        $('#btnDelete').click(this.delete);
     }
 
+    //function run when click a row in table
+    // Created By NBDUONG (25/4/2019)
     onRowClick() {
         $('tbody').on('click', 'tr', function () {
-
+            $('tbody tr').removeClass('selected-row');
+            $(this).addClass('selected-row');
         });
     }
 
     //Add function
     // Created by NBDUONG (18/4/2019)
     add() {
+        $('span#ui-id-1').text("Thêm mới khách hàng");
         //3 buttons in the bottom of the dialog
-        var buttons = {
-            "Lưu": function () {
-                check.save();
-                popup.closeDialog();
-            },
-            "Đóng": function () { popup.closeDialog(); },
-            "Giúp": function () { }
-        };
-
-        //new Dialog with id = "formDetail", width: 700, height: 270, buttons are shown below and header: "Thêm mới nhân viên"
-        var popup = new Dialog('#formDetail', 700, 270, buttons, "Thêm mới nhân viên");
-        popup.openDialog();
-
-        popup.addDatePicker("#Birthday");
-        popup.getSelectMenu("#StopFollow");
-        popup.getSelectMenu("#Gender");
+        check.dialog.openDialog();
     }
 
     //Edit function
     // Created by NBDUONG (18/4/2019)
     edit() {
-        var buttons = {
-            "Lưu": function () { validate.validateInput(); },
-            "Đóng": function () { popup.closeDialog(); },
-            "Giúp": function () { }
-        };
-        var popup = new Dialog('#formDetail', 700, 270, buttons, "Chỉnh sửa thông tin nhân viên");
-        popup.openDialog();
+        if ($('.selected-row').data()) {
+            $('span#ui-id-1').text("Chỉnh sửa khách hàng");
+            check.dialog.openDialog();
+            check.dialog.addDatePicker("#birthday-selection");
+            check.dialog.getSelectMenu("#follow-ComboBox");
+            check.dialog.getSelectMenu("#gender-ComboBox");
 
-        popup.addDatePicker("#birthday-selection");
-        popup.getSelectMenu("#follow-ComboBox");
-        popup.getSelectMenu("#gender-ComboBox");
+            var customer = $('.selected-row').data();
+            console.log(customer);
+
+            var listElements = $('[dataIndex]');
+            $.each(listElements, function (index, item) {
+                var fieldData = $(item).attr('dataIndex');
+                var fieldValue = customer[fieldData];
+                switch (fieldData) {
+                    case "Birthday":
+                        fieldValue = new Date(fieldValue).formatddMMyyyy();
+                        $(item).val(fieldValue);
+                        break;
+                    case "StopFollow":
+                        $(item).val(fieldValue);
+                        $("#StopFollow").selectmenu("refresh", false);
+                        break;
+                    case "Gender":
+                        $(item).val(fieldValue);
+                        $('#Gender').selectmenu("refresh");
+                        break;
+                    default:
+                        $(item).val(fieldValue);
+                        break;
+                }
+            });
+
+        } else {
+            alert('Vui lòng chọn 1 dòng');
+        }
     }
 
     //View function
     // Created by NBDUONG (18/4/2019)
     view() {
-        var buttons = {
-            "Đóng": function () { popup.closeDialog(); },
-            "Giúp": function () { }
-        };
-        var popup = new Dialog('#formDetail', 700, 270, buttons, "Xem thông tin nhân viên");
-        popup.openDialog();
-
-        popup.addDatePicker("#birthday-selection");
-        popup.getSelectMenu("#follow-ComboBox");
-        popup.getSelectMenu("#gender-ComboBox");
+        $('span#ui-id-1').text("Xem khách hàng");
+        check.dialog.openDialog();
+        check.dialog.addDatePicker("#birthday-selection");
+        check.dialog.getSelectMenu("#follow-ComboBox");
+        check.dialog.getSelectMenu("#gender-ComboBox");
     }
 
     //Refresh function
     // Created by NBDUONG (18/4/2019)
     refresh() {
-        var buttons = {
-            "Nạp": function () { },
-            "Đóng": function () { popup.closeDialog(); },
-            "Giúp": function () { }
-        };
-        var popup = new Dialog('#formDetail', 700, 270, buttons, "Nạp dữ liệu nhân viên");
-        popup.openDialog();
-
-        popup.addDatePicker("#birthday-selection");
-        popup.getSelectMenu("#follow-ComboBox");
-        popup.getSelectMenu("#gender-ComboBox");
+        $('span#ui-id-1').text("Refresh khách hàng");
+        check.dialog.openDialog();
+        check.dialog.addDatePicker("#birthday-selection");
+        check.dialog.getSelectMenu("#follow-ComboBox");
+        check.dialog.getSelectMenu("#gender-ComboBox");
     }
 
     //Duplicate function
     // Created by NBDUONG (18/4/2019)
     duplicate() {
-        var buttons = {
-            "Nhân bản": function () { validate.validateInput(); },
-            "Đóng": function () { popup.closeDialog(); },
-            "Giúp": function () { }
-        };
-        var popup = new Dialog('#formDetail', 700, 270, buttons, "Nhân bản");
-        popup.openDialog();
-
-        popup.addDatePicker("#birthday-selection");
-        popup.getSelectMenu("#follow-ComboBox");
-        popup.getSelectMenu("#gender-ComboBox");
+        $('span#ui-id-1').text("Nhân bản khách hàng");
+        check.dialog.openDialog();
+        check.dialog.addDatePicker("#birthday-selection");
+        check.dialog.getSelectMenu("#follow-ComboBox");
+        check.dialog.getSelectMenu("#gender-ComboBox");
     }
 
-    //Delete function
+    //Delete customer function
     // Created by NBDUONG (18/4/2019)
     delete() {
-        var buttons = {
-            "Xóa": function () { },
-            "Đóng": function () { popup.closeDialog(); },
-            "Giúp": function () { }
-        };
-        var popup = new Dialog('#formDetail', 700, 270, buttons, "Xóa nhân viên");
-        popup.openDialog();
-
-        popup.addDatePicker("#birthday-selection");
-        popup.getSelectMenu("#follow-ComboBox");
-        popup.getSelectMenu("#gender-ComboBox");
+        var customer = $('.selected-row') ? $('.selected-row').data() : null;
+        var customerId = customer.CustomerId;
+        $.ajax({
+            type: "POST",
+            url: "/customers/delete/" + customerId,
+            success: function () {
+                alert("Success");
+                location.reload();
+            },
+            error: function () {
+                alert("Noob");
+            }
+        });
     }
 
     save() {
         //Validate data
         //Created By NBDUONG (18/4/2019)
-        validate.validateInput();
 
-        //Created By NBDUONG (18/4/2019)
-        //Get data from form, build into object
+        if (validate.validateInput()) {
+            var elements = $('#formDetail input, #formDetail select');
+            var object = {};
 
-        var elements = $('#formDetail input, #formDetail select');
-        var object = {};
+            //Format Date String to Synch Date Data in DB vs Date Data get from Server
+            //Modified By NBDUONG (23/4/2019)
+            $.each(elements, function (index, element) {
+                var id = $(element).attr('id');
+                if (id === "StopFollow") {
+                    //customer[id] = $(`#${idname}`).prop('checked');  //new world
+                    object[id] = parseInt($(element).val());
+                } else if (id === "Birthday") {
+                    var datePicker = $('#Birthday').datepicker('getDate');
+                    var dateObject = $.datepicker.formatDate("yy-mm-dd", datePicker);
+                    object[id] = dateObject + " 00:00:00";
+                }
+                else {
+                    object[id] = $(element).val();
+                }
+            });
 
-        //Format Date String to Synch Date Data in DB vs Date Data get from Server
-        //Modified By NBDUONG (23/4/2019)
-        $.each(elements, function (index, element) {
-            var id = $(element).attr('id');
-            if (id === "StopFollow") {
-                //customer[id] = $(`#${idname}`).prop('checked');  //new world
-                object[id] = parseInt($(element).val());
-            } else if (id === "Birthday") {
-                var datePicker = $('#Birthday').datepicker('getDate');
-                var dateObject = $.datepicker.formatDate("yy-mm-dd", datePicker);
-                object[id] = dateObject + " 00:00:00";
-            }
-            else {
-                object[id] = $(element).val();
-            }
-        });
+            console.log(object);
 
-        console.log(object);
-
-        //ajax call api to create new customer
-        //Created By: NBDUONG (19/4/2019)
-        $.ajax({
-            type: "POST",
-            url: "/customers/new",
-            data: JSON.stringify(object),
-            contentType: "application/json;charset=utf-8",
-            dataType: "json",
-            success: function (object) {
-                location.reload();
-            },
-            error: function () {
-                console.log("gege");
-            }
-        });
+            //ajax call api to create new customer
+            //Created By: NBDUONG (19/4/2019)
+            $.ajax({
+                type: "POST",
+                url: "/customers/new",
+                data: JSON.stringify(object),
+                contentType: "application/json;charset=utf-8",
+                dataType: "json",
+                success: function (object) {
+                    location.reload();
+                },
+                error: function () {
+                    console.log("gege");
+                }
+            });
+        } else {
+            alert("Vui lòng điền đầy đủ dữ liệu");
+        } 
     }
 }
 

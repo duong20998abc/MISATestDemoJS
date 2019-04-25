@@ -88,5 +88,25 @@ namespace MISA.DemoCukCuk03
             }
             return result;
         }
+
+        //Delete customer controller
+        //Created By: NBDUONG (25/4/2019)
+        [HttpPost]
+        [Route("customers/delete/{id}")]
+        public IHttpActionResult DeleteCustomer(Guid? id)
+        {
+            Customer customer = db.Customers.FirstOrDefault(x => x.CustomerID == id);
+            db.Customers.Remove(customer);
+            db.SaveChanges();
+            return Ok();
+        }
+
+        [HttpPost]
+        [Route("customers/edit")]
+        public IHttpActionResult EditCustomer ([FromBody]Customer customer)
+        {
+            Customer customer = db.Customers.FirstOrDefault(x => x.CustomerID == customer.CustomerID);
+            return Ok();
+        }
     }
 }
