@@ -105,7 +105,7 @@ namespace MISA.DemoCukCuk03
         [Route("customers/edit")]
         public IHttpActionResult EditCustomer ([FromBody]Customer customer)
         {
-            Customer customer = db.Customers.FirstOrDefault(x => x.CustomerID == customer.CustomerID);
+            Customer customerNew = db.Customers.FirstOrDefault(x => x.CustomerID == customer.CustomerID);
             return Ok();
         }
     }
