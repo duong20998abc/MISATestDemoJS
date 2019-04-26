@@ -90,7 +90,7 @@ class Base {
                 var typeData = jQuery.type(value);
                 switch (dataType) {
                     case "date":
-                        var dateString = "";    
+                        var dateString = "";
                         if (value) {
                             value = new Date(value);
                             dateString = value.formatddMMyyyy();
@@ -115,7 +115,7 @@ class Base {
                         rowHtml.append('<td class = "align-center">' + checkbox + '</td>');
                         break;
 
-                    default: 
+                    default:
                         rowHtml = $(rowHtml).append('<td>' + value + '</td>');
                 }
             });
@@ -172,6 +172,8 @@ class CustomerJS extends Base {
     //Add function
     // Created by NBDUONG (18/4/2019)
     add() {
+        //hide button "Luu"
+        $('.ui-dialog .ui-dialog-buttonpane button').eq(0).hide();
         //add header to form
         $('span#ui-id-1').text("Thêm mới khách hàng");
         //3 buttons in the bottom of the dialog
@@ -181,6 +183,8 @@ class CustomerJS extends Base {
     //Edit function
     // Created by NBDUONG (18/4/2019)
     edit() {
+        //hide button "Them"
+        $('.ui-dialog .ui-dialog-buttonpane button').eq(1).hide();
         // check if the row selected has data
         if ($('.selected-row').data()) {
             //add header to form
@@ -189,7 +193,7 @@ class CustomerJS extends Base {
 
             //get customer data from selected row (with row data taken from onRowClick)
             var customer = $('.selected-row').data() ? $(".selected-row").data() : null;
-
+            console.log(customer);
             //get list elements from object has attribute "dataIndex"
             var listElements = $('[dataIndex]');
             $.each(listElements, function (index, item) {
@@ -271,51 +275,71 @@ class CustomerJS extends Base {
         });
     }
 
-    save() {
+    save(url, customerId) {
+        debugger;
+        var elements = $('#formDetail input, #formDetail select');
+        var object = {};
+        if (customerId) {
+            object.CustomerId = customerId;
+        }
+
         //Validate data
         //Created By NBDUONG (18/4/2019)
 
+        //Format Date String to Synch Date Data in DB vs Date Data get from Server
+        //Modified By NBDUONG (23/4/2019)
+        $.each(elements, function (index, element) {
+            var id = $(element).attr('id');
+            if (id === "StopFollow") {
+                //customer[id] = $(`#${idname}`).prop('checked');  //new world
+                object[id] = parseInt($(element).val());
+            } else if (id === "Birthday") {
+                var datePicker = $('#Birthday').datepicker('getDate');
+                var dateObject = $.datepicker.formatDate("yy-mm-dd", datePicker);
+                object[id] = dateObject + " 00:00:00";
+            }
+            else {
+                object[id] = $(element).val();
+            }
+        });
+
+        //ajax call api to create new customer
+        //Created By: NBDUONG (19/4/2019)
+        $.ajax({
+            type: "POST",
+            url: url,
+            data: JSON.stringify(object),
+            contentType: "application/json;charset=utf-8",
+            dataType: "json",
+            success: function () {
+                location.reload();
+            },
+            error: function () {
+                alert("gege");
+            }
+        });
+    }
+
+    //Save when Add a new customer
+    //Created By: NBDUONG (26/4/2019)
+    saveAddCustomer() {
         if (validate.validateInput()) {
-            var elements = $('#formDetail input, #formDetail select');
-            var object = {};
-
-            //Format Date String to Synch Date Data in DB vs Date Data get from Server
-            //Modified By NBDUONG (23/4/2019)
-            $.each(elements, function (index, element) {
-                var id = $(element).attr('id');
-                if (id === "StopFollow") {
-                    //customer[id] = $(`#${idname}`).prop('checked');  //new world
-                    object[id] = parseInt($(element).val());
-                } else if (id === "Birthday") {
-                    var datePicker = $('#Birthday').datepicker('getDate');
-                    var dateObject = $.datepicker.formatDate("yy-mm-dd", datePicker);
-                    object[id] = dateObject + " 00:00:00";
-                }
-                else {
-                    object[id] = $(element).val();
-                }
-            });
-
-            console.log(object);
-
-            //ajax call api to create new customer
-            //Created By: NBDUONG (19/4/2019)
-            $.ajax({
-                type: "POST",
-                url: "/customers/new",
-                data: JSON.stringify(object),
-                contentType: "application/json;charset=utf-8",
-                dataType: "json",
-                success: function (object) {
-                    location.reload();
-                },
-                error: function () {
-                    console.log("gege");
-                }
-            });
+            check.save("/customers/new");
+            check.dialog.closeDialog();
         } else {
             alert("Vui lòng điền đầy đủ dữ liệu");
-        } 
+        }
+    }
+
+    //Edit Customer Information with CustomerId get from selected row
+    //Created By: NBDUONG (26/4/2019)
+    saveEditCustomer() {
+        if (validate.validateInput()) {
+            check.save("/customers/edit", $('.selected-row').data().CustomerId);
+            check.dialog.closeDialog();
+        } else {
+            alert("Vui lòng điền đầy đủ dữ liệu");
+        }
     }
 }
 

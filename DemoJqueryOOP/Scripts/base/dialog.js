@@ -23,9 +23,9 @@ class Dialog {
             width: width,
             modal: true,
             buttons: {
-                "Lưu": scope.save,
-                "Đóng": context.closeDialog,
-                "Giúp": function () { }
+                "Lưu": scope.saveEditCustomer,
+                "Thêm": scope.saveAddCustomer,
+                "Đóng": context.closeDialog
             }
         });
 
