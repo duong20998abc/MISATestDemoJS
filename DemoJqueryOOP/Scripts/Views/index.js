@@ -44,6 +44,7 @@ class Base {
                         CustomerId: response.Data[i].CustomerID,
                         CustomerCode: response.Data[i].CustomerCode,
                         CustomerName: response.Data[i].CustomerName,
+                        Gender: response.Data[i].Gender,
                         GenderName: response.Data[i].GenderName,
                         Birthday: new Date(response.Data[i].Birthday).toLocaleDateString(),
                         Salary: response.Data[i].Salary,
@@ -124,6 +125,8 @@ class Base {
     }
 }
 
+//object to control pointer "this"
+//Created By NBDUONG (19/4/2019)
 var check;
 
 //CustomerJS class inherited from Base and using method of parents
@@ -169,6 +172,7 @@ class CustomerJS extends Base {
     //Add function
     // Created by NBDUONG (18/4/2019)
     add() {
+        //add header to form
         $('span#ui-id-1').text("Thêm mới khách hàng");
         //3 buttons in the bottom of the dialog
         check.dialog.openDialog();
@@ -177,16 +181,16 @@ class CustomerJS extends Base {
     //Edit function
     // Created by NBDUONG (18/4/2019)
     edit() {
+        // check if the row selected has data
         if ($('.selected-row').data()) {
+            //add header to form
             $('span#ui-id-1').text("Chỉnh sửa khách hàng");
             check.dialog.openDialog();
-            check.dialog.addDatePicker("#birthday-selection");
-            check.dialog.getSelectMenu("#follow-ComboBox");
-            check.dialog.getSelectMenu("#gender-ComboBox");
 
-            var customer = $('.selected-row').data();
-            console.log(customer);
+            //get customer data from selected row (with row data taken from onRowClick)
+            var customer = $('.selected-row').data() ? $(".selected-row").data() : null;
 
+            //get list elements from object has attribute "dataIndex"
             var listElements = $('[dataIndex]');
             $.each(listElements, function (index, item) {
                 var fieldData = $(item).attr('dataIndex');
@@ -198,11 +202,13 @@ class CustomerJS extends Base {
                         break;
                     case "Gender":
                         $(item).val(fieldValue);
-                        $('#Gender').selectmenu("refresh");
+                        $('#Gender').selectmenu('refresh');
                         break;
                     case "StopFollow":
-                        $(item).val(fieldValue);
-                        $("#StopFollow").selectmenu("refresh", false);
+                        //check true false
+                        var stopFollow = customer["StopFollow"] ? 1 : 0;
+                        $("#StopFollow").val(stopFollow);
+                        $("#StopFollow").selectmenu("refresh");
                         break;
                     default:
                         $(item).val(fieldValue);
@@ -210,7 +216,9 @@ class CustomerJS extends Base {
                 }
             });
 
-        } else {
+        }
+        // has not selected a row yet :)
+        else {
             alert('Vui lòng chọn 1 dòng');
         }
     }
